@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 class App {
     constructor() {
         //public mongoUrl: string = 'mongodb://mongodb:27017/MyDb';
-        this.mongoUrl = 'mongodb://localhost:27017/db';
+        this.mongoUrl = 'mongodb+srv://dbUser:Paroleamea1!@cluster0-rsbxh.mongodb.net/test?retryWrites=true&w=majority';
         this.routePrv = new routes_1.Routes();
         this.app = express();
         this.config();
@@ -33,7 +33,14 @@ class App {
     mongoSetup() {
         mongoose.Promise = global.Promise;
         mongoose.set('useCreateIndex', true);
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        mongoose.connect(this.mongoUrl, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
+            .then(() => {
+            console.log('Mongo coneccted');
+        })
+            .catch(err => console.log(err));
     }
 }
 exports.App = App;

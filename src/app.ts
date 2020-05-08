@@ -6,7 +6,8 @@ import * as mongoose from "mongoose";
 export class App {
     
     //public mongoUrl: string = 'mongodb://mongodb:27017/MyDb';
-    public mongoUrl: string = 'mongodb://localhost:27017/db';
+   
+    public mongoUrl: string = 'mongodb+srv://dbUser:Paroleamea1!@cluster0-rsbxh.mongodb.net/test?retryWrites=true&w=majority';
     public app: express.Application;
     public routePrv: Routes = new Routes();
     constructor() {
@@ -36,7 +37,15 @@ export class App {
     private mongoSetup(): void{
         mongoose.Promise = global.Promise;
         mongoose.set('useCreateIndex', true);
-        mongoose.connect(this.mongoUrl,{ useNewUrlParser: true });    
+     
+        mongoose.connect(this.mongoUrl, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+          })
+          .then(() => {
+            console.log('Mongo coneccted')
+          })
+          .catch(err => console.log(err))  
     }
 }
 
